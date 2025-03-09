@@ -1,7 +1,14 @@
 const express         = require('express');
 const bodyParser      = require('body-parser');
-const bullmqRoutes    = require('./routes/bullmq.routes');
 const redisConnection = require('./_core_app_connectivities/redis'); // Redis connection
-const send_email_notification = require('./_bg_services/send_email_notification');
-const send_acc_task_reminder  = require('./_bg_services/send_acc_task_reminder');
-// const send_data_to_webhook    = require('./_bg_services/send_data_to_webhook');
+
+
+const app = express();
+app.use(bodyParser.json());
+
+
+
+app.listen(3000, () => {
+    console.log('File: app.js | Line: 12 | Server is running on port 3000');
+});
+
