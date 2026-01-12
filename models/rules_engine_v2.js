@@ -2,8 +2,6 @@ const mongoose   = require("mongoose");
 const { Schema } = mongoose;
 const moment     = require("moment");
 
-
-
 const whatsapp_engine = mongoose.connection.useDb("whatsapp_engine");
 
 const rules_engine = new Schema({
