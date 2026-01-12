@@ -1,9 +1,9 @@
 /**
  * Authentication Service
  * Handles user authentication, registration, and JWT operations
+ * Note: Passwords are stored in plain text as per client requirement
  */
 
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const user_data_repository = require('../data_repositories/user.data_repository');
 
@@ -34,16 +34,13 @@ class auth_service {
                 };
             }
 
-            // Hash password
-            const salt = await bcrypt.genSalt(10);
-            const hashed_password = await bcrypt.hash(user_data.password, salt);
-
-            // Create user
+            // Create user (password stored in plain text as per client requirement)
             const new_user = await user_data_repository.create_user({
                 name: user_data.name,
                 email: user_data.email,
-                password: hashed_password,
+                password: user_data.password, // Store password in plain text
                 country: user_data.country || null,
+                age: user_data.age || null,
                 role: user_data.role || 'user'
             });
 
@@ -61,6 +58,7 @@ class auth_service {
                         name: new_user.name,
                         email: new_user.email,
                         country: new_user.country,
+                        age: new_user.age,
                         role: new_user.role
                     },
                     token: token
@@ -95,9 +93,8 @@ class auth_service {
                 };
             }
 
-            // Verify password
-            const is_valid = await bcrypt.compare(password, user.password);
-            if (!is_valid) {
+            // Verify password (plain text comparison as per client requirement)
+            if (user.password !== password) {
                 return {
                     STATUS: "ERROR",
                     ERROR_FILTER: "USER_END_VIOLATION",
@@ -120,6 +117,7 @@ class auth_service {
                         name: user.name,
                         email: user.email,
                         country: user.country,
+                        age: user.age,
                         role: user.role
                     },
                     token: token

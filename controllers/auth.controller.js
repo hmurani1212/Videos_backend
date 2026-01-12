@@ -13,7 +13,7 @@ class auth_controller {
         try {
             console.log(`FILE: auth.controller.js | register | Registration request received`);
 
-            const { name, email, password, country } = req.body;
+            const { name, email, password, country, age } = req.body;
 
             // Validate required fields
             if (!name || !email || !password) {
@@ -31,6 +31,7 @@ class auth_controller {
                 email,
                 password,
                 country,
+                age: age ? parseInt(age) : null,
                 role: 'user' // Default role
             });
 
